@@ -1,6 +1,6 @@
-# Kernoid Whitepaper
+# kernoid Whitepaper
 
-The whitepaper of **Kernoid** – a sovereign, integrated core of email, identity and storage, built as free software.
+The whitepaper of **kernoid** – a sovereign, integrated core of email, identity and storage, built as free software.
 A [falkOSS](https://falkoss.org) project.
 
 | File | Content | Status |
@@ -46,4 +46,4 @@ Contributions are accepted under the [Developer Certificate of Origin](https://d
 - Text (`whitepaper.md` and the generated `.typ`/`.pdf`): [CC BY-SA 4.0](LICENSES/CC-BY-SA-4.0.txt)
 - Build scripts and templates: [AGPL-3.0-or-later](LICENSES/AGPL-3.0-or-later.txt)
 - Fonts: [SIL Open Font License 1.1](LICENSES/OFL-1.1.txt)
-- The name and logo “Kernoid” are not covered by these licenses.
+- The name and logo “kernoid” are not covered by these licenses.

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
-// Kernoid document template: A4, IBM Plex (fonts/, OFL). Used by pandoc.typ for whitepaper.md; usable on its own:
+// kernoid document template: A4, IBM Plex (fonts/, OFL). Used by pandoc.typ for whitepaper.md; usable on its own:
 //
 //   #import "template/kernoid.typ": kernoid
 //   #show: kernoid.with(title: "…", status: "Draft")
 //
-// Colours and the lockup (assets/) come from the Kernoid brand kit (kernoid/brand) – on paper: ink text, steel
+// Colours and the lockup (assets/) come from the kernoid brand kit (kernoid/brand) – on paper: ink text, steel
 // rules, mint (on light) only as the one accent. Copy assets/ again after brand/generate.py.
 
 #let ink = rgb("#052345")      // glitch black
@@ -14,7 +14,7 @@
 #let rule = rgb("#C9D1D9")
 #let note = rgb("#EDF7F2")
 
-#let org = "Kernoid – a falkOSS project"
+#let org = "kernoid – a falkOSS project"
 #let mono = "IBM Plex Mono"
 #let sans = "IBM Plex Sans"
 

@@ -1,6 +1,6 @@
 #!/bin/sh
 # SPDX-License-Identifier: AGPL-3.0-or-later
-# Sets every document with the Kernoid template: next to each X.md it writes X.typ (Markdown → Typst with pandoc,
+# Sets every document with the kernoid template: next to each X.md it writes X.typ (Markdown → Typst with pandoc,
 # template/pandoc.typ) and X.pdf (typst, template/kernoid.typ). The Markdown stays the only source.
 #   ./build.sh                 all documents of this repository (except README.md)
 #   ./build.sh path/to/X.md …  only these

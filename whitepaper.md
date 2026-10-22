@@ -1,5 +1,5 @@
 ---
-title: "Kernoid: One Sovereign Core for Email, Identity and Storage"
+title: "kernoid: One Sovereign Core for Email, Identity and Storage"
 version: "v0.2 (draft)"
 date: "October 2026"
 status: Draft
@@ -19,7 +19,7 @@ less[^heads-in-clouds]. Switching away is hard not
 because good free software is missing, but because the free building blocks are separate systems: one for mail, one
 for identity, one for files – each with its own users, its own administration and its own operations.
 
-**Kernoid is one system for that core.** Kernoid is a self-hostable cloud application, written in Rust, that combines
+**kernoid is one system for that core.** kernoid is a self-hostable cloud application, written in Rust, that combines
 an email and collaboration server with an identity provider and storage – as one program with one data model:
 
 - **one identity** – an account is created once and is at the same time the mailbox, the login for single sign-on
@@ -28,20 +28,20 @@ an email and collaboration server with an identity provider and storage – as o
 - **one operation** – one application to deploy, update and monitor, built for containers and Kubernetes, with
   PostgreSQL for data and S3-compatible object storage for messages and files.
 
-**Built on proven free software.** Kernoid does not start from zero. It takes over what it can from two mature
+**Built on proven free software.** kernoid does not start from zero. It takes over what it can from two mature
 projects under the GNU AGPL-3.0: from **Stalwart**, a mail and collaboration server written in Rust (SMTP, IMAP, JMAP,
 CalDAV, CardDAV, WebDAV)[^stalwart], and from **Zitadel**, an identity provider with OpenID Connect, SAML 2.0,
-SCIM 2.0 and passkeys[^zitadel]. Kernoid reuses Stalwart's AGPL-licensed code where it fits and carries Zitadel's
+SCIM 2.0 and passkeys[^zitadel]. kernoid reuses Stalwart's AGPL-licensed code where it fits and carries Zitadel's
 concepts and protocol logic over to Rust – with the attribution both licences require.
 
-**Everything included, for everyone.** Kernoid is free software under the GNU AGPL-3.0, and the free
+**Everything included, for everyone.** kernoid is free software under the GNU AGPL-3.0, and the free
 release is the full product: single sign-on, provisioning, multi-tenancy and clustering are part of it – the very
 features that other projects reserve for a paid edition; Stalwart, for example, lists SCIM provisioning and
-multi-tenancy with per-tenant identity backends as enterprise features[^stalwart-ee]. Kernoid collects no telemetry.
+multi-tenancy with per-tenant identity backends as enterprise features[^stalwart-ee]. kernoid collects no telemetry.
 
-**A falkOSS project.** Kernoid is published by falkOSS, a non-profit company for free software in formation in
+**A falkOSS project.** kernoid is published by falkOSS, a non-profit company for free software in formation in
 Falkensee near Berlin **[OPEN: status of the incorporation and of the non-profit recognition at publication]**.
-falkOSS holds the name and funds the development; the technical direction lies with the project. As soon as Kernoid
+falkOSS holds the name and funds the development; the technical direction lies with the project. As soon as kernoid
 is stable, falkOSS will run its own email on it.
 
 # The Problem
@@ -105,7 +105,7 @@ sender, and from bulk senders also DMARC and one-click unsubscribe[^google-sende
 rules to domains that send 5,000 or more messages to Outlook.com[^microsoft-senders]. Beyond those rules, a new server's address
 has no sending history – and reputation cannot be configured.
 
-Kernoid makes the configurable part the default and checks it: it shows when SPF, DKIM, DMARC, reverse DNS or
+kernoid makes the configurable part the default and checks it: it shows when SPF, DKIM, DMARC, reverse DNS or
 MTA-STS are missing or wrong. Reputation it cannot create – but a new installation can send through a relay of the
 operator's choice until its own address has built a history.
 
@@ -114,15 +114,15 @@ operator's choice until its own address has built a history.
 > [!NOTE]
 > Took up v0.1 "The Vision" (build vs. integrate, open standards); the chapter is dropped.
 
-## What Kernoid is
+## What kernoid is
 
-Kernoid is **one application** for an organisation's core services:
+kernoid is **one application** for an organisation's core services:
 
 | Area | Scope |
 |---|---|
 | Email | SMTP (in and out), IMAP, JMAP; spam and phishing filtering; SPF, DKIM, DMARC, MTA-STS, DANE |
 | Collaboration | calendars and contacts (CalDAV, CardDAV, JMAP), sharing |
-| Storage | files with sync, sharing and versions – Kernoid's own storage, with first-party apps (see below) |
+| Storage | files with sync, sharing and versions – kernoid's own storage, with first-party apps (see below) |
 | Identity | accounts, groups, roles; OpenID Connect, OAuth 2.0, SAML 2.0, SCIM 2.0, LDAP; MFA and passkeys |
 | Administration | one interface and one API for all of the above, multi-tenancy |
 | Operation | self-hosted on Docker or Kubernetes; needs only PostgreSQL and S3-compatible object storage |
@@ -133,59 +133,59 @@ identity provider side by side and connecting them.
 ## Everything included
 
 **The free release is the full product.** Single sign-on, provisioning, multi-tenancy, clustering, audit logs –
-everything an organisation needs to run its core seriously – is part of every Kernoid release, for everyone. There is
+everything an organisation needs to run its core seriously – is part of every kernoid release, for everyone. There is
 one edition, and it is free.
 
-Kernoid is funded through falkOSS – by donations, grants and the service providers who build on it – not by holding
+kernoid is funded through falkOSS – by donations, grants and the service providers who build on it – not by holding
 features back (see Governance and Funding).
 
 ## Apps and protocol
 
-Kernoid comes with **first-party apps** for files, and over time for mail, calendars and contacts – first on the web, then on the desktop, then on mobile **[OPEN: evaluation of a
+kernoid comes with **first-party apps** for files, and over time for mail, calendars and contacts – first on the web, then on the desktop, then on mobile **[OPEN: evaluation of a
 cross-platform framework, e.g. Flutter]**. They speak an **open, documented protocol**; anyone can write their own
 apps and clients against it, and existing clients keep working through the standard protocols (IMAP, JMAP, CalDAV,
 CardDAV, WebDAV).
 
-For file sync, Kernoid either adopts an existing open protocol that meets its needs or defines its own **[OPEN:
-evaluation – JMAP for files (IETF draft, already implemented by Stalwart) would give Kernoid one protocol family for
+For file sync, kernoid either adopts an existing open protocol that meets its needs or defines its own **[OPEN:
+evaluation – JMAP for files (IETF draft, already implemented by Stalwart) would give kernoid one protocol family for
 mail, calendars, contacts and files; other candidates to be assessed]**.
 
 The licences are split on purpose:
 
 | Part | Licence | Why |
 |---|---|---|
-| Server (Kernoid) | GNU AGPL-3.0-or-later; code taken over from Stalwart and Zitadel stays AGPL-3.0-only | whoever offers Kernoid as a service must share their changes |
+| Server (kernoid) | GNU AGPL-3.0-or-later; code taken over from Stalwart and Zitadel stays AGPL-3.0-only | whoever offers kernoid as a service must share their changes |
 | First-party apps and client libraries | MIT | apps can be distributed through app stores; anyone can build on them |
-| Protocol specification | CC BY 4.0, freely implementable | no client depends on Kernoid's own apps |
+| Protocol specification | CC BY 4.0, freely implementable | no client depends on kernoid's own apps |
 
 The apps are decoupled from the server: they share no AGPL code with it, only the protocol. Code taken over from
 Stalwart or Zitadel therefore stays in the server.
 
-## No lock-in, not even to Kernoid
+## No lock-in, not even to kernoid
 
-Kernoid speaks the open standards in both directions: mail over IMAP and JMAP, calendars and contacts over CalDAV
+kernoid speaks the open standards in both directions: mail over IMAP and JMAP, calendars and contacts over CalDAV
 and CardDAV, files over WebDAV, accounts over SCIM and LDAP. The same protocols that bring an organisation's data
-into Kernoid take it out again. An organisation that leaves Kernoid takes its data with it, in standard formats.
+into kernoid take it out again. An organisation that leaves kernoid takes its data with it, in standard formats.
 
 ## Where it comes from
 
-Kernoid stands on the work of others and says so: it takes over **Stalwart**'s AGPL code for mail and collaboration
+kernoid stands on the work of others and says so: it takes over **Stalwart**'s AGPL code for mail and collaboration
 and carries **Zitadel**'s concepts and logic for identity over to Rust – see Building on Stalwart and Zitadel.
 
-## What Kernoid is not
+## What kernoid is not
 
 - **Not an integration layer** on top of separate servers – it is one system.
-- **Not an office suite.** Kernoid builds where integration is the problem – the core – and connects where
-  integration already works: documents, video and chat come from proven free software that logs in through Kernoid
+- **Not an office suite.** kernoid builds where integration is the problem – the core – and connects where
+  integration already works: documents, video and chat come from proven free software that logs in through kernoid
   (see Integrations).
-- **Not a hosting company.** Kernoid is software that anyone can run. Managed hosting is offered by others: by
+- **Not a hosting company.** kernoid is software that anyone can run. Managed hosting is offered by others: by
   providers of the operator's choice, and planned by a separate company **[OPEN: name, timing]**. falkOSS itself
-  hosts Kernoid only for non-profit purposes.
+  hosts kernoid only for non-profit purposes.
 
 ## Why Rust
 
-Kernoid handles the most sensitive data an organisation has: its mail and its accounts. Rust removes whole classes
-of memory-safety bugs, delivers the performance needed to serve many tenants from few machines, and lets Kernoid
+kernoid handles the most sensitive data an organisation has: its mail and its accounts. Rust removes whole classes
+of memory-safety bugs, delivers the performance needed to serve many tenants from few machines, and lets kernoid
 build directly on Stalwart's existing Rust code.
 
 # Architecture
@@ -198,7 +198,7 @@ build directly on Stalwart's existing Rust code.
 
 ## One data model
 
-Kernoid is built around a few objects that every part of the system shares:
+kernoid is built around a few objects that every part of the system shares:
 
 - A **tenant** is an organisation: its domains, its policies, its administrators. One installation serves one or
   many tenants.
@@ -211,9 +211,9 @@ Kernoid is built around a few objects that every part of the system shares:
 - A **service account** belongs to a machine or an application and uses keys instead of a login.
 - **Roles** say what an account or a group may do – one rights model for mailboxes, calendars, folders and
   administration.
-- **Applications** are the other services of a tenant that log in through Kernoid over OpenID Connect or SAML.
+- **Applications** are the other services of a tenant that log in through kernoid over OpenID Connect or SAML.
 
-Because these objects exist once, there is nothing to synchronise inside Kernoid: an account that is disabled can no
+Because these objects exist once, there is nothing to synchronise inside kernoid: an account that is disabled can no
 longer log in, receive mail or open files – in one step.
 
 ## Components
@@ -231,7 +231,7 @@ model directly.
 
 ## Modules
 
-The core – identity, mail, collaboration, storage – is always there. Everything that connects Kernoid to a particular
+The core – identity, mail, collaboration, storage – is always there. Everything that connects kernoid to a particular
 outside service is a **module**: the Jitsi module, the WOPI module for office software, SCIM connections to specific
 services, and further modules as integrations are added (see Integrations).
 
@@ -244,7 +244,7 @@ services, and further modules as integrations are added (see Integrations).
 
 ## Data
 
-Kernoid needs **PostgreSQL** and **S3-compatible object storage** – nothing else:
+kernoid needs **PostgreSQL** and **S3-compatible object storage** – nothing else:
 
 - **Identity and administration** are stored as events, following Zitadel, which is built on the event-sourcing
   pattern and gets its audit trail from it[^zitadel-events]. Every change to an account, a role or a policy is an
@@ -257,20 +257,20 @@ Kernoid needs **PostgreSQL** and **S3-compatible object storage** – nothing el
 
 ## Operation
 
-Kernoid ships as **one container image**. Configuration decides which roles a process takes on: in a small
+kernoid ships as **one container image**. Configuration decides which roles a process takes on: in a small
 installation one process does everything; in a large one, receiving mail, IMAP and JMAP, the web interface and API,
 and background jobs run as separate, independently scaled groups of processes. The processes keep no state of their
 own – everything lives in PostgreSQL and object storage – so they can be added, removed and updated one after
 another.
 
-Kernoid comes with **Docker Compose** files for small installations and a **Kubernetes operator** for large ones,
+kernoid comes with **Docker Compose** files for small installations and a **Kubernetes operator** for large ones,
 which also takes care of upgrades and backups **[OPEN: upgrade policy and supported versions]**.
 
 ## Security
 
 - **Memory safety:** written in Rust, see Why Rust.
 - **In transit:** TLS for every protocol, MTA-STS and DANE for mail between servers.
-- **At rest:** Kernoid encrypts message and file content itself, with a key per tenant, before it goes to object
+- **At rest:** kernoid encrypts message and file content itself, with a key per tenant, before it goes to object
   storage – the storage provider only ever sees ciphertext. PostgreSQL is encrypted by the storage layer below it.
   The tenant keys are protected by a main key from the configuration **[OPEN: rotation, optional external key
   management]**.
@@ -283,70 +283,70 @@ which also takes care of upgrades and backups **[OPEN: upgrade policy and suppor
 # Building on Stalwart and Zitadel
 
 > [!NOTE]
-> Decided 2026-10-22: Kernoid's own files AGPL-3.0-or-later, taken-over files keep AGPL-3.0-only; code ported from
+> Decided 2026-10-22: kernoid's own files AGPL-3.0-or-later, taken-over files keep AGPL-3.0-only; code ported from
 > Zitadel's source counts as a derivative work. Stalwart figures come from counting the SPDX headers of the `.rs`
 > files on `main` at commit `aa47d8e` (2026-10-22) – recount before publication.
 
-Kernoid does not start from zero. Two mature free projects have solved large parts of what it needs: Stalwart for
-mail and collaboration, Zitadel for identity. This chapter says what Kernoid takes from them, under which rules, and
+kernoid does not start from zero. Two mature free projects have solved large parts of what it needs: Stalwart for
+mail and collaboration, Zitadel for identity. This chapter says what kernoid takes from them, under which rules, and
 how it deals with both projects.
 
 ## Stalwart: code
 
-Stalwart is a mail and collaboration server written in Rust[^stalwart]. Kernoid takes over Stalwart code where it
-fits – above all the protocols (SMTP, IMAP, JMAP, CalDAV, CardDAV, WebDAV) and mail filtering. Kernoid copies the
+Stalwart is a mail and collaboration server written in Rust[^stalwart]. kernoid takes over Stalwart code where it
+fits – above all the protocols (SMTP, IMAP, JMAP, CalDAV, CardDAV, WebDAV) and mail filtering. kernoid copies the
 selected parts **once** into its own repository, removes everything under the enterprise licence and adapts the code
 to its own data model; it does not merge Stalwart's later changes **[OPEN: the exact selection of crates]**.
 
 Stalwart is published under two licences, and every source file says which applies[^stalwart-spdx]:
 
-| Files (Rust, `main`, 2026-10-22) | Licence | Kernoid |
+| Files (Rust, `main`, 2026-10-22) | Licence | kernoid |
 |---|---|---|
 | 907 | `AGPL-3.0-only OR LicenseRef-SEL` – free choice | takes them under the AGPL-3.0 |
 | 102 | `LicenseRef-SEL` only (Stalwart Enterprise License) | takes nothing – among them all of SCIM |
 | 52 of the 907 | contain sections marked `SPDX-SnippetBegin` … `SPDX-SnippetEnd` under `LicenseRef-SEL` | removes these sections |
 
-What Stalwart reserves for its enterprise edition – SCIM provisioning, parts of multi-tenancy – Kernoid writes
-itself. An automated check keeps the rule: no file and no section under `LicenseRef-SEL` ever enters Kernoid's
+What Stalwart reserves for its enterprise edition – SCIM provisioning, parts of multi-tenancy – kernoid writes
+itself. An automated check keeps the rule: no file and no section under `LicenseRef-SEL` ever enters kernoid's
 repository – every change is checked for it automatically before it is merged.
 
 ## Zitadel: concepts and logic
 
 Zitadel is an identity provider written in Go, under AGPL-3.0-only; some parts are under Apache-2.0 (API definitions,
-documentation) or MIT (the login application, client packages)[^zitadel-licensing]. Kernoid carries over Zitadel's
+documentation) or MIT (the login application, client packages)[^zitadel-licensing]. kernoid carries over Zitadel's
 event model, its multi-tenancy and the logic of its protocols – OpenID Connect, OAuth 2.0, SAML 2.0 **[OPEN: further
 scope]** – and rewrites them in Rust.
 
-A translation from Go to Rust is still a derivative work. Kernoid therefore draws a clear line: **code written while
-reading Zitadel's source is marked as derived from Zitadel** and keeps its licence and copyright notice. What Kernoid
+A translation from Go to Rust is still a derivative work. kernoid therefore draws a clear line: **code written while
+reading Zitadel's source is marked as derived from Zitadel** and keeps its licence and copyright notice. What kernoid
 builds only from specifications and documentation is its own code.
 
-**[OPEN: whether Zitadel's MIT-licensed login application can serve as a starting point for Kernoid's login]**
+**[OPEN: whether Zitadel's MIT-licensed login application can serve as a starting point for kernoid's login]**
 
 ## Licences in one repository
 
-- **Kernoid's own code** is under the AGPL-3.0-or-later.
+- **kernoid's own code** is under the AGPL-3.0-or-later.
 - **Code taken over** from Stalwart or derived from Zitadel keeps the AGPL-3.0-only, its copyright notice and a note
   of its origin.
 - **The server as a whole** is therefore distributed under the AGPL-3.0. A move to a later version of the AGPL would
   only be possible once the taken-over code is replaced.
 - **The apps are not affected:** they share no code with the server (see Apps and protocol).
 
-Every file names its licence and its authors in SPDX headers; a credits file lists both projects and what Kernoid
-took from them. Kernoid follows the REUSE specification, so every file's licence and copyright can be checked by
+Every file names its licence and its authors in SPDX headers; a credits file lists both projects and what kernoid
+took from them. kernoid follows the REUSE specification, so every file's licence and copyright can be checked by
 machine[^reuse].
 
 ## Working with the upstreams
 
-Kernoid is not a fork that follows Stalwart or Zitadel release by release. Code that Kernoid takes over becomes part
-of Kernoid and develops on its own. Fixes found along the way go back where the projects accept them:
+kernoid is not a fork that follows Stalwart or Zitadel release by release. Code that kernoid takes over becomes part
+of kernoid and develops on its own. Fixes found along the way go back where the projects accept them:
 
 - **Zitadel** accepts contributions under Apache-2.0[^zitadel-licensing].
 - **Stalwart** currently accepts only bug fixes and translations, only from contributors it has vouched for, only
-  under its Fiduciary Contributor License Agreement, and no AI-generated code[^stalwart-contributing]. Kernoid
+  under its Fiduciary Contributor License Agreement, and no AI-generated code[^stalwart-contributing]. kernoid
   reports what it finds and offers fixes within these rules.
 
-Security fixes in both projects concern Kernoid as well: Kernoid follows the security advisories of both and checks
+Security fixes in both projects concern kernoid as well: kernoid follows the security advisories of both and checks
 every fix against the code it took over. **[OPEN: contact with both projects before publication]**
 
 # Integrations
@@ -355,54 +355,54 @@ every fix against the code it took over. **[OPEN: contact with both projects bef
 > From v0.1 "What We Build vs. What We Integrate". Dropped: "certified integrations", CryptPad, the fixed
 > milestones per integration.
 
-Kernoid builds the core and leaves the rest to free software that already works: documents, video and chat. These
-services do not become part of Kernoid; the operator runs them next to it, and they connect to Kernoid through open
-standards. Where a service needs more than a standard, Kernoid has an optional module for it (see Modules) – an
+kernoid builds the core and leaves the rest to free software that already works: documents, video and chat. These
+services do not become part of kernoid; the operator runs them next to it, and they connect to kernoid through open
+standards. Where a service needs more than a standard, kernoid has an optional module for it (see Modules) – an
 organisation that uses no video conferencing never has to think about Jitsi.
 
 ## How services connect
 
-| Need | Standard | Kernoid's part |
+| Need | Standard | kernoid's part |
 |---|---|---|
 | Login | OpenID Connect, SAML 2.0 | identity provider: one login for every connected service |
 | Accounts in other services | SCIM 2.0 | accepts accounts from outside, and creates and removes accounts in connected services – leaving the organisation ends access everywhere in one step |
 | Directory for older software | LDAP | directory that such software can read |
 | Editing files in place | WOPI | file host that office software opens and saves files on |
 
-Any service that supports one of these standards can use Kernoid without changes to either side.
+Any service that supports one of these standards can use kernoid without changes to either side.
 
 ## Planned integrations
 
 - **Documents:** Collabora Online and ONLYOFFICE Docs open and save files on a file host over
-  WOPI[^office-wopi]. Kernoid's storage acts as that host, so documents are edited where they are stored, with
-  Kernoid's rights. This WOPI module is the first extension planned after 1.0.
+  WOPI[^office-wopi]. kernoid's storage acts as that host, so documents are edited where they are stored, with
+  kernoid's rights. This WOPI module is the first extension planned after 1.0.
 - **Video:** Jitsi Meet authenticates users internally, over LDAP or with signed tokens (JWT); its documentation
-  names no OpenID Connect[^jitsi-auth]. Kernoid's Jitsi module issues these tokens for logged-in
+  names no OpenID Connect[^jitsi-auth]. kernoid's Jitsi module issues these tokens for logged-in
   accounts – no extra service is needed.
 - **Chat:** for Matrix, the Matrix Authentication Service accepts an upstream OpenID Connect provider, but no
-  SAML[^mas-oidc]. Kernoid is that provider.
+  SAML[^mas-oidc]. kernoid is that provider.
 
 Further integrations follow when someone needs them and tests them.
 
 ## What an integration means
 
-An integration is listed when it has been tested against a released version of Kernoid and its setup is documented.
-There is no certification and no partner programme behind it; the setup guides are part of Kernoid's
+An integration is listed when it has been tested against a released version of kernoid and its setup is documented.
+There is no certification and no partner programme behind it; the setup guides are part of kernoid's
 documentation.
 
 # Governance and Funding
 
 > [!NOTE]
-> Rewritten from v0.1 "Governance & Sustainability". Dropped: the "Kernoid Foundation" gGmbH, sponsor tiers with a
-> board seat, Apache-2.0/MIT for the server. Before publication: resolution of the falkOSS shareholders on Kernoid
+> Rewritten from v0.1 "Governance & Sustainability". Dropped: the "kernoid Foundation" gGmbH, sponsor tiers with a
+> board seat, Apache-2.0/MIT for the server. Before publication: resolution of the falkOSS shareholders on kernoid
 > (§ 7 (3) no. 4 of the articles); check the state of incorporation and of the articles. No personal data here.
 
 ## A falkOSS project
 
-Kernoid is published by **falkOSS – Falcon Lake Open Source Software gUG (haftungsbeschränkt)**, a non-profit
+kernoid is published by **falkOSS – Falcon Lake Open Source Software gUG (haftungsbeschränkt) i. G.**, a non-profit
 company for free software in Falkensee near Berlin, currently in formation **[OPEN: state of incorporation and of
-the non-profit recognition at publication]**. falkOSS holds Kernoid's name, logo, domains and GitHub organisation
-and funds its development. Kernoid keeps its own identity; falkOSS appears as its publisher.
+the non-profit recognition at publication]**. falkOSS holds kernoid's name, logo, domains and GitHub organisation
+and funds its development. kernoid keeps its own identity; falkOSS appears as its publisher.
 
 The technical direction lies with the project. A small group of maintainers decides; larger changes – to the
 protocol, the data model or the licences – are first published as a proposal (RFC) and discussed in the open.
@@ -416,7 +416,7 @@ notarisation, a draft]**:
 - **Everything included.** The free release is the whole product: one edition, no enterprise or pro edition, no
   licence keys, no subscriptions, no features released later for paying customers. Money is earned for work –
   operation, support, development – never for unlocking.
-- **No telemetry.** Kernoid sends no usage data anywhere. Exceptions are only what is technically necessary, what
+- **No telemetry.** kernoid sends no usage data anywhere. Exceptions are only what is technically necessary, what
   the user starts themselves, and what an operator explicitly opts into.
 
 ## Licences
@@ -427,19 +427,19 @@ notarisation, a draft]**:
 | First-party apps and client libraries | MIT |
 | Protocol specification | CC BY 4.0 |
 | Documentation and this whitepaper | CC BY-SA 4.0 |
-| Name and logo | not covered by the licences; held by falkOSS, which registers "Kernoid" as a word mark once it is incorporated |
+| Name and logo | not covered by the licences; held by falkOSS, which registers "kernoid" as a word mark once it is incorporated |
 
 Contributions are accepted under the Developer Certificate of Origin (`git commit -s`) – there is no contributor
 licence agreement, and nobody gets rights to the code that others do not have.
 
 ## Funding
 
-Kernoid is funded through falkOSS, by:
+kernoid is funded through falkOSS, by:
 
 - **donations** – tax-deductible once falkOSS is recognised as non-profit;
 - **grants** for open digital infrastructure, such as those of the Sovereign Tech Agency[^sta] or NLnet's NGI Zero
-  funds[^nlnet] **[OPEN: which programmes fit and accept a project at Kernoid's stage]**;
-- **work** for organisations that build on Kernoid: support, development of features they need – which then go into
+  funds[^nlnet] **[OPEN: which programmes fit and accept a project at kernoid's stage]**;
+- **work** for organisations that build on kernoid: support, development of features they need – which then go into
   the one free release.
 
 The roadmap assumes two to three full-time developers (see Roadmap); budgets are part of the individual grant
@@ -447,11 +447,11 @@ applications.
 
 ## Managed service
 
-falkOSS does not sell Kernoid as a service. A **separate company** is planned to offer managed hosting
+falkOSS does not sell kernoid as a service. A **separate company** is planned to offer managed hosting
 **[OPEN: name, timing]**; any other provider can do the same. That company runs the same software under the same
 licence and has no rights that other providers lack.
 
-falkOSS itself hosts Kernoid only for non-profit purposes – and runs its own email on Kernoid as soon as it is
+falkOSS itself hosts kernoid only for non-profit purposes – and runs its own email on kernoid as soon as it is
 stable.
 
 # Roadmap
@@ -505,7 +505,7 @@ The alpha is for testing, not for production data.
 - stable data formats and a documented upgrade path between versions
 - documentation for operators, including migration from other systems
 - external security audit, results published
-- falkOSS moves its own email to Kernoid
+- falkOSS moves its own email to kernoid
 
 ## After 1.0
 
@@ -517,13 +517,13 @@ index.
 
 > [!NOTE]
 > Shortened from v0.1 "Get Involved". Dropped: the Tolkien quote, sponsor recognition, "certified" partners,
-> "serve Europe for generations". Kernoid addresses everyone, not only Europe.
+> "serve Europe for generations". kernoid addresses everyone, not only Europe.
 
-Kernoid is at its beginning. This is the moment when help shapes the most.
+kernoid is at its beginning. This is the moment when help shapes the most.
 
 ## Developers
 
-Kernoid needs people who know or want to learn:
+kernoid needs people who know or want to learn:
 
 - **Rust** – async, networking, systems programming
 - **identity protocols** – OpenID Connect, OAuth 2.0, SAML, SCIM, WebAuthn
@@ -539,11 +539,11 @@ the Developer Certificate of Origin.
 
 - **Try it:** test the alpha and the beta and tell us what is missing for your organisation.
 - **Fund it:** donations and grants pay for development; commissioned work goes into the one free release.
-- **Offer it:** run Kernoid for your customers – the software is the same for everyone.
+- **Offer it:** run kernoid for your customers – the software is the same for everyone.
 
 ## Public sector and funders
 
-Kernoid is free software for a core every administration needs. Public bodies can fund its development, test it in
+kernoid is free software for a core every administration needs. Public bodies can fund its development, test it in
 pilots and ask for open standards in procurement.
 
 ## Contact
@@ -564,7 +564,7 @@ Questions and corrections to this whitepaper are welcome as issues or pull reque
   is marked **OPEN**. v0.1 "References" and its numbered footnotes are dropped. Two footnotes in a row render as one
   number (e.g. "56") – merge them into one.
 - **Before publication:** recount Stalwart's SPDX headers; read Collabora's SDK documentation in a browser (blocks
-  automated access); falkOSS resolution on Kernoid; state of incorporation.
+  automated access); falkOSS resolution on kernoid; state of incorporation.
 
 [^stalwart]: Stalwart, README of `stalwartlabs/stalwart` (AGPL-3.0 and SELv2), checked 2026-10-22: <https://github.com/stalwartlabs/stalwart>
 [^zitadel]: Zitadel, README of `zitadel/zitadel` (AGPL-3.0), checked 2026-10-22: <https://github.com/zitadel/zitadel>
