@@ -9,13 +9,30 @@
 # "Draft". The PDF's creation date is the document's date, so an unchanged document builds to the same PDF.
 # The footer carries the date of the document's last commit (or of the file, if it has uncommitted changes) and the
 # short hash of its content – `git log --find-object=<hash>` finds the commit a PDF was made from.
-# Needs pandoc, typst and python3 (without pandoc/typst, nix is used).
+# Needs python3 and exactly the pandoc and typst versions below – other versions set the documents differently. An
+# installed pandoc/typst is used only if its version matches; otherwise nix runs it from the pinned nixpkgs revision,
+# which has exactly these versions. CI reads the versions from here.
 set -eu
 cd "$(dirname "$0")"
 repo=$(pwd)
 
-if command -v typst >/dev/null 2>&1; then TYPST="typst"; else TYPST="nix run nixpkgs#typst --"; fi
-if command -v pandoc >/dev/null 2>&1; then PANDOC="pandoc"; else PANDOC="nix run nixpkgs#pandoc --"; fi
+PANDOC_VERSION=3.7.0.2
+TYPST_VERSION=0.15.1
+NIXPKGS_REV=55bfb4d7437bd4e09ab7cba58a43bd68eb310044
+
+# tool <name> <version>: the command that runs exactly this version
+tool() {
+  if command -v "$1" >/dev/null 2>&1 && [ "$("$1" --version | head -1 | cut -d' ' -f2)" = "$2" ]; then
+    echo "$1"
+  elif command -v nix >/dev/null 2>&1; then
+    echo "nix run github:NixOS/nixpkgs/$NIXPKGS_REV#$1 --"
+  else
+    echo "needs $1 $2 (or nix)" >&2
+    return 1
+  fi
+}
+PANDOC=$(tool pandoc "$PANDOC_VERSION")
+TYPST=$(tool typst "$TYPST_VERSION")
 
 if [ $# -gt 0 ]; then docs="$*"; else
   docs=$(git ls-files --cached --others --exclude-standard '*.md' | grep -v '^README.md$' | grep -v '^\.github/')

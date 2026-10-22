@@ -7,8 +7,8 @@
   version: "v0.2 (draft)",
   date: "October 2026",
   status: "Draft",
-  stand: "2026-10-22",
-  rev: "050a123",
+  stand: "2026-10-23",
+  rev: "73cf40d",
 )
 
 = Executive Summary
@@ -241,15 +241,20 @@ model directly.
 == Modules
 <modules>
 The core -- identity, mail, collaboration, storage -- is always there. Everything that connects kernoid to a particular
-outside service is a #strong[module];: the Jitsi module, the WOPI module for office software, SCIM connections to specific
-services, and further modules as integrations are added (see Integrations).
+outside service is a #strong[module];: video meetings with Jitsi, editing documents with office software over WOPI, virus
+scanning, external key management, DNS automation, moving over from other services, SCIM connections to specific
+services -- and further modules as integrations are added (see Integrations; for the order, see Roadmap).
 
+- Modules are maintained by the kernoid project in its own repository and #strong[compiled into the one image];: they are
+  tested and released together with the core, and no code is loaded at run time.
 - Modules are #strong[off by default] and are switched on where they are needed -- per installation, and per tenant.
 - A module that is off does nothing: it opens no ports and runs no background jobs.
 - Modules are part of the same free release. They are not add-ons that cost extra -- #emph[everything included] applies to
   them as well.
 
-#strong[\[OPEN: whether modules are compiled into the one image and switched on in the configuration, or loaded separately\]]
+A service that speaks an open standard needs no module: whatever logs in over OpenID Connect or takes accounts over
+SCIM works with kernoid as it is. Everyone else extends kernoid from outside, with actions and hooks (see
+Integrations).
 
 == Data
 <data>
@@ -281,8 +286,8 @@ which also takes care of upgrades and backups #strong[\[OPEN: upgrade policy and
 - #strong[In transit:] TLS for every protocol, MTA-STS and DANE for mail between servers.
 - #strong[At rest:] kernoid encrypts message and file content itself, with a key per tenant, before it goes to object
   storage -- the storage provider only ever sees ciphertext. PostgreSQL is encrypted by the storage layer below it.
-  The tenant keys are protected by a main key from the configuration #strong[\[OPEN: rotation, optional external key
-  management\]];.
+  The tenant keys are protected by a main key from the configuration, or held in an external key store through a
+  module (see Modules) #strong[\[OPEN: rotation\]];.
 - #strong[Login:] MFA and passkeys for every account; policies per tenant.
 - #strong[Traceability:] every change to identity and administration is an event (see Data).
 - #strong[End-to-end encryption] for selected folders is a goal for after 1.0; it has no date yet.
@@ -389,7 +394,7 @@ Any service that supports one of these standards can use kernoid without changes
 <planned-integrations>
 - #strong[Documents:] Collabora Online and ONLYOFFICE Docs open and save files on a file host over
   WOPI#footnote[Collabora Online, `README.md` (integration with a host via a WOPI URL; MPL-2.0): #link("https://github.com/CollaboraOnline/online.mirror/blob/main/README.md");; ONLYOFFICE Docs API, \"WOPI REST API\", checked 2026-10-22: #link("https://api.onlyoffice.com/docs/docs-api/using-wopi/wopi-rest-api/");];. kernoid\'s storage acts as that host, so documents are edited where they are stored, with
-  kernoid\'s rights. This WOPI module is the first extension planned after 1.0.
+  kernoid\'s rights. The WOPI module comes with 1.0 (see Roadmap).
 - #strong[Video:] Jitsi Meet authenticates users internally, over LDAP or with signed tokens (JWT); its documentation
   names no OpenID Connect#footnote[Jitsi Meet Handbook, \"Self-Hosting Guide -- Docker\", section Authentication, checked 2026-10-22: #link("https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/");];. kernoid\'s Jitsi module issues these tokens for logged-in
   accounts -- no extra service is needed.
@@ -397,6 +402,25 @@ Any service that supports one of these standards can use kernoid without changes
   SAML#footnote[Matrix Authentication Service documentation, \"Single sign-on\", checked 2026-10-22: #link("https://element-hq.github.io/matrix-authentication-service/setup/sso.html");];. kernoid is that provider.
 
 Further integrations follow when someone needs them and tests them.
+
+== Actions and hooks
+<actions-and-hooks>
+Services that kernoid has no module for still take part in what happens in it -- as separate services that talk to
+kernoid over the network, written in any language, maintained by anyone:
+
+- #strong[Actions] tell a service what happened -- an account was created, a member left a group -- signed, in order, and
+  retried until delivered.
+- #strong[Hooks] let a service take part in a decision while it is made: whether a login may go ahead, whether a message
+  is accepted, what an account receives in another system. kernoid waits for the answer only as long as configured
+  and then follows the policy set for that hook: allow or deny.
+- An integration describes itself in a #strong[manifest];: the events it receives, the hooks it answers, the rights it needs.
+  A tenant\'s administrator installs it and sees what it may do; it works with a service account limited to exactly
+  that.
+- What integrations see is a #strong[public, versioned set of events];, separate from kernoid\'s internal events -- kernoid
+  can change its data model without breaking them.
+
+An integration shares no code with kernoid, only the network interface #strong[\[OPEN: confirm what this means for the
+licences of integrations before publication\]];. Actions and hooks follow after the beta (see Roadmap).
 
 == What an integration means
 <what-an-integration-means>
@@ -484,7 +508,7 @@ team of #strong[two to three full-time developers] -- with fewer people or less 
     table.hline(),
     [Alpha], [12--18 months], [identity and mail],
     [Beta], [further 9--12 months (21--30)], [collaboration, storage and sync, first app],
-    [1.0], [further 6--12 months (27--42)], [stable for production],
+    [1.0], [further 6--12 months (27--42)], [modules, actions and hooks; stable for production],
   )]
   , kind: table
   )
@@ -519,16 +543,27 @@ The alpha is for testing, not for production data.
 
 == 1.0 -- ready for production
 <10--ready-for-production>
+The modules come in three steps (see Modules):
+
++ #strong[Jitsi, WOPI and virus scanning] -- video meetings with kernoid\'s login; editing documents where they are stored,
+  with Collabora Online or ONLYOFFICE Docs; scanning incoming mail and uploaded files.
++ #strong[External key management and DNS automation] -- the main key held in an external key store; DNS records for
+  mail (DKIM, MTA-STS and others) set through the APIs of DNS providers.
++ #strong[Moving over] -- from Microsoft 365 and Google Workspace, including accounts and groups from Active Directory, and
+  from any other service over IMAP and, where offered, CalDAV and CardDAV (for example Apple iCloud or GMX).
+
+Alongside:
+
+- actions and hooks for integrations (see Integrations)
 - stable data formats and a documented upgrade path between versions
-- documentation for operators, including migration from other systems
+- documentation for operators, including moving over from other systems
 - external security audit, results published
 - falkOSS moves its own email to kernoid
 
 == After 1.0
 <after-10>
-First comes editing documents in place over WOPI. After that, without dates and in no fixed order: end-to-end
-encryption for selected folders, the desktop and mobile apps, further integrations, an optional external search
-index.
+Without dates and in no fixed order: end-to-end encryption for selected folders, the desktop app, the mobile apps
+with push notifications, further integrations, an optional external search index.
 
 = Get Involved
 <get-involved>

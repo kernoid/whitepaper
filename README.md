@@ -16,7 +16,7 @@ A [falkOSS](https://falkoss.org) project.
 after every change and commit all three:
 
 ```sh
-./build.sh               # all documents (needs pandoc and typst, otherwise uses nix)
+./build.sh               # all documents (needs pandoc 3.7.0.2 and typst 0.15.1, otherwise uses nix)
 ./build.sh whitepaper.md # only this one
 ```
 
