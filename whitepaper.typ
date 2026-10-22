@@ -8,7 +8,7 @@
   date: "October 2026",
   status: "Draft",
   stand: "2026-10-23",
-  rev: "73cf40d",
+  rev: "5a6baab",
 )
 
 = Executive Summary
@@ -142,8 +142,10 @@ features back (see Governance and Funding).
 
 == Apps and protocol
 <apps-and-protocol>
-kernoid comes with #strong[first-party apps] for files, and over time for mail, calendars and contacts -- first on the web, then on the desktop, then on mobile #strong[\[OPEN: evaluation of a
-cross-platform framework, e.g. Flutter\]];. They speak an #strong[open, documented protocol];; anyone can write their own
+kernoid comes with #strong[first-party apps] for files, and over time for mail, calendars and contacts -- first on the web, then on the desktop, then on mobile. The web app is a
+progressive web app written in TypeScript; with it comes a #strong[TypeScript SDK];, so that anyone can build kernoid\'s
+login, or more, into their own web application #strong[\[OPEN: evaluation of a cross-platform framework for the desktop and
+mobile apps, e.g. Flutter\]];. They speak an #strong[open, documented protocol];; anyone can write their own
 apps and clients against it, and existing clients keep working through the standard protocols (IMAP, JMAP, CalDAV,
 CardDAV, WebDAV).
 
@@ -202,8 +204,11 @@ build directly on Stalwart\'s existing Rust code.
 <one-data-model>
 kernoid is built around a few objects that every part of the system shares:
 
-- A #strong[tenant] is an organisation: its domains, its policies, its administrators. One installation serves one or
-  many tenants.
+- An #strong[instance] is one identity provider with its own domains and its own administrators; it holds tenants. An
+  installation usually runs one instance -- several serve a managed service or an umbrella organisation without
+  separate deployments.
+- A #strong[tenant] is an organisation: its domains, its policies, its administrators. An account\'s address names its
+  tenant: `alice@example.org` belongs to the tenant that owns `example.org`.
 - An #strong[account] belongs to a tenant and is at the same time a login, a mailbox, the owner of calendars and contacts
   and the owner of files.
 - A #strong[group] collects accounts and is at the same time a mailing list and the owner of shared folders and
@@ -283,11 +288,14 @@ which also takes care of upgrades and backups #strong[\[OPEN: upgrade policy and
 == Security
 <security>
 - #strong[Memory safety:] written in Rust, see Why Rust.
-- #strong[In transit:] TLS for every protocol, MTA-STS and DANE for mail between servers.
+- #strong[In transit:] TLS for every protocol, MTA-STS and DANE for mail between servers. kernoid terminates TLS itself
+  or runs behind a reverse proxy such as Caddy, nginx or Traefik; it believes forwarded headers only from proxies
+  it is configured to trust.
 - #strong[At rest:] kernoid encrypts message and file content itself, with a key per tenant, before it goes to object
   storage -- the storage provider only ever sees ciphertext. PostgreSQL is encrypted by the storage layer below it.
   The tenant keys are protected by a main key from the configuration, or held in an external key store through a
-  module (see Modules) #strong[\[OPEN: rotation\]];.
+  module (see Modules). Both kinds of keys can be rotated: new content uses the new tenant key while older content
+  stays readable, and a new main key wraps all tenant keys again.
 - #strong[Login:] MFA and passkeys for every account; policies per tenant.
 - #strong[Traceability:] every change to identity and administration is an event (see Data).
 - #strong[End-to-end encryption] for selected folders is a goal for after 1.0; it has no date yet.
