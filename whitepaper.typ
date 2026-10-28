@@ -7,8 +7,8 @@
   version: "v0.2 (draft)",
   date: "October 2026",
   status: "Draft",
-  stand: "2026-10-23",
-  rev: "5a6baab",
+  stand: "2026-10-29",
+  rev: "66e6637",
 )
 
 = Executive Summary
@@ -142,9 +142,9 @@ features back (see Governance and Funding).
 
 == Apps and protocol
 <apps-and-protocol>
-kernoid comes with #strong[first-party apps] for files, and over time for mail, calendars and contacts -- first on the web, then on the desktop, then on mobile. The web app is a
-progressive web app written in TypeScript; with it comes a #strong[TypeScript SDK];, so that anyone can build kernoid\'s
-login, or more, into their own web application #strong[\[OPEN: evaluation of a cross-platform framework for the desktop and
+kernoid comes with #strong[first-party apps] -- the web app and the terminal app first; desktop and mobile apps follow
+after the first stable release. The web app is a progressive web app written in TypeScript; with it comes a
+#strong[TypeScript SDK];, so that anyone can build kernoid\'s login, or more, into their own web application #strong[\[OPEN: evaluation of a cross-platform framework for the desktop and
 mobile apps, e.g. Flutter\]];. They speak an #strong[open, documented protocol];; anyone can write their own
 apps and clients against it, and existing clients keep working through the standard protocols (IMAP, JMAP, CalDAV,
 CardDAV, WebDAV).
@@ -402,7 +402,7 @@ Any service that supports one of these standards can use kernoid without changes
 <planned-integrations>
 - #strong[Documents:] Collabora Online and ONLYOFFICE Docs open and save files on a file host over
   WOPI#footnote[Collabora Online, `README.md` (integration with a host via a WOPI URL; MPL-2.0): #link("https://github.com/CollaboraOnline/online.mirror/blob/main/README.md");; ONLYOFFICE Docs API, \"WOPI REST API\", checked 2026-10-22: #link("https://api.onlyoffice.com/docs/docs-api/using-wopi/wopi-rest-api/");];. kernoid\'s storage acts as that host, so documents are edited where they are stored, with
-  kernoid\'s rights. The WOPI module comes with 1.0 (see Roadmap).
+  kernoid\'s rights. The WOPI module comes before 1.0 (see Roadmap).
 - #strong[Video:] Jitsi Meet authenticates users internally, over LDAP or with signed tokens (JWT); its documentation
   names no OpenID Connect#footnote[Jitsi Meet Handbook, \"Self-Hosting Guide -- Docker\", section Authentication, checked 2026-10-22: #link("https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/");];. kernoid\'s Jitsi module issues these tokens for logged-in
   accounts -- no extra service is needed.
@@ -428,7 +428,7 @@ kernoid over the network, written in any language, maintained by anyone:
   can change its data model without breaking them.
 
 An integration shares no code with kernoid, only the network interface #strong[\[OPEN: confirm what this means for the
-licences of integrations before publication\]];. Actions and hooks follow after the beta (see Roadmap).
+licences of integrations before publication\]];. Actions and hooks follow before 1.0 (see Roadmap).
 
 == What an integration means
 <what-an-integration-means>
@@ -490,8 +490,8 @@ kernoid is funded through falkOSS, by:
 - #strong[work] for organisations that build on kernoid: support, development of features they need -- which then go into
   the one free release.
 
-The roadmap assumes two to three full-time developers (see Roadmap); budgets are part of the individual grant
-applications.
+The roadmap (see Roadmap) is planned with two to three full-time developers; budgets are part of the individual
+grant applications.
 
 == Managed service
 <managed-service>
@@ -504,57 +504,52 @@ stable.
 
 = Roadmap
 <roadmap>
-The order is fixed; the time windows are rough. They count from the #strong[start of funded development] and assume a
-team of #strong[two to three full-time developers] -- with fewer people or less money, every window grows
-#strong[\[OPEN: start of funded development\]];.
+The order is fixed; the dates are aims, not promises -- with fewer people or less money, they move.
 
 #figure(
   align(center)[#table(
     columns: 3,
     align: (auto,auto,auto,),
-    table.header([Milestone], [Window (from start)], [Content],),
+    table.header([Phase], [Version], [Content],),
     table.hline(),
-    [Alpha], [12--18 months], [identity and mail],
-    [Beta], [further 9--12 months (21--30)], [collaboration, storage and sync, first app],
-    [1.0], [further 6--12 months (27--42)], [modules, actions and hooks; stable for production],
+    [Pre-release], [0.1 (released 2026-10-28)], [identity and single sign-on, mail, calendars and contacts, files, the web app and a terminal app],
+    [], [0.2], [the core completed: public links, resumable uploads, LDAP, the Kubernetes operator; virus scanning and Jitsi as the first modules],
+    [], [further 0.x], [WOPI, external key management, DNS automation, moving over; actions and hooks; external security audit],
+    [Stable], [1.0, summer 2027], [ready for production; falkOSS runs its own email, logins and files on it],
   )]
   , kind: table
   )
 
-== Before the start
-<before-the-start>
-- publish this whitepaper and the repositories
-- talk to Stalwart and Zitadel (see Working with the upstreams)
-- apply for funding (see Funding)
-- write down the data model and the event model in detail; evaluate the sync protocol
+Throughout the pre-release phase, kernoid\'s own apps are the #strong[web app] and the #strong[terminal app];; they are made as
+good as the core. Everything else connects over the open protocols.
 
-== Alpha -- identity and mail
-<alpha--identity-and-mail>
-Identity comes first: it is the larger part of the work and the foundation of everything else. Much of the mail part
-can build on Stalwart.
-
-- tenants, accounts, groups, roles -- as events, with the audit log
-- login with MFA and passkeys; OpenID Connect and OAuth 2.0 for other applications
+== 0.1 -- the first pre-release
+<01--the-first-pre-release>
+- tenants, accounts, groups, roles, projects -- as events, with the audit trail as data
+- login with MFA and passkeys; OpenID Connect and OAuth 2.0 for other applications; SAML 2.0 and OpenID Connect
+  federation; SCIM 2.0
 - mail: SMTP in and out, IMAP, JMAP, spam filtering, SPF, DKIM and DMARC
-- administration interface and API
-- one container image with Docker Compose, PostgreSQL and object storage
+- calendars and contacts (CalDAV, CardDAV, JMAP); files with versions, sharing, team folders and WebDAV
+- the web app with administration, the terminal app; one container image with Docker Compose, PostgreSQL and object
+  storage
 
-The alpha is for testing, not for production data.
+Pre-releases are for testing, not for production data.
 
-== Beta -- collaboration and files
-<beta--collaboration-and-files>
-- calendars and contacts (CalDAV, CardDAV, JMAP)
-- SAML 2.0, SCIM 2.0 (accepting and pushing accounts) and LDAP
-- files: storage, versions, sharing, WebDAV and the sync protocol
-- the first first-party app: files on the web
+== 0.2 -- the core completed, the first modules
+<02--the-core-completed-the-first-modules>
+- public links to files, uploads that resume after a broken connection
+- LDAP for programs that need it; the open points of mail (SRS, sending as a group, OAUTHBEARER, IMAP `SORT` and
+  `THREAD`)
 - running in separate roles across several instances, with the Kubernetes operator
+- #strong[virus scanning] of incoming mail and uploaded files, and #strong[Jitsi] -- video meetings with kernoid\'s login -- as the
+  first modules
+- what testing 0.1 turns up
 
-== 1.0 -- ready for production
-<10--ready-for-production>
-The modules come in three steps (see Modules):
+== Until stable
+<until-stable>
+The further modules come in this order (see Modules):
 
-+ #strong[Jitsi, WOPI and virus scanning] -- video meetings with kernoid\'s login; editing documents where they are stored,
-  with Collabora Online or ONLYOFFICE Docs; scanning incoming mail and uploaded files.
++ #strong[WOPI] -- editing documents where they are stored, with Collabora Online or ONLYOFFICE Docs.
 + #strong[External key management and DNS automation] -- the main key held in an external key store; DNS records for
   mail (DKIM, MTA-STS and others) set through the APIs of DNS providers.
 + #strong[Moving over] -- from Microsoft 365 and Google Workspace, including accounts and groups from Active Directory, and
@@ -566,12 +561,15 @@ Alongside:
 - stable data formats and a documented upgrade path between versions
 - documentation for operators, including moving over from other systems
 - external security audit, results published
-- falkOSS moves its own email to kernoid
+
+== 1.0 -- stable
+<10--stable>
+Ready for production, planned for summer 2027. falkOSS moves its own email, logins and files to kernoid.
 
 == After 1.0
 <after-10>
-Without dates and in no fixed order: end-to-end encryption for selected folders, the desktop app, the mobile apps
-with push notifications, further integrations, an optional external search index.
+Without dates and in no fixed order: the desktop app, the mobile apps with push notifications, end-to-end encryption
+for selected folders, further integrations, an optional external search index.
 
 = Get Involved
 <get-involved>
@@ -593,7 +591,7 @@ the Developer Certificate of Origin.
 
 == Organisations
 <organisations>
-- #strong[Try it:] test the alpha and the beta and tell us what is missing for your organisation.
+- #strong[Try it:] test the pre-releases and tell us what is missing for your organisation.
 - #strong[Fund it:] donations and grants pay for development; commissioned work goes into the one free release.
 - #strong[Offer it:] run kernoid for your customers -- the software is the same for everyone.
 
