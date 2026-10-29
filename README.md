@@ -43,7 +43,8 @@ Contributions are accepted under the [Developer Certificate of Origin](https://d
 
 ## License
 
-- Text (`whitepaper.md` and the generated `.typ`/`.pdf`): [CC BY-SA 4.0](LICENSES/CC-BY-SA-4.0.txt)
+- Text (`whitepaper.md` and the generated `.typ`/`.pdf`): [CC BY 4.0](LICENSES/CC-BY-4.0.txt)
 - Build scripts and templates: [AGPL-3.0-or-later](LICENSES/AGPL-3.0-or-later.txt)
 - Fonts: [SIL Open Font License 1.1](LICENSES/OFL-1.1.txt)
+- The lockup in `template/assets/`: a copy from [kernoid/brand](https://github.com/kernoid/brand), [CC BY-ND 4.0](LICENSES/CC-BY-ND-4.0.txt)
 - The name and logo “kernoid” are not covered by these licenses.

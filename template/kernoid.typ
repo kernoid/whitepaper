@@ -48,7 +48,7 @@
       grid(
         columns: (1fr, auto),
         column-gutter: 10pt,
-        [#org · CC BY-SA 4.0],
+        [#org · CC BY 4.0],
         [#status#if stand != none [ · #stand]#if rev != none [ · #rev] · #counter(page).display() / #counter(page).final().first()],
       )
     },

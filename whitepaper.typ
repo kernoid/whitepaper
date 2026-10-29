@@ -8,7 +8,7 @@
   date: "October 2026",
   status: "Draft",
   stand: "2026-10-29",
-  rev: "66e6637",
+  rev: "8bc6d64",
 )
 
 = Executive Summary
@@ -471,8 +471,9 @@ notarisation, a draft\]];:
     [Server], [GNU AGPL-3.0-or-later; code taken over from Stalwart and Zitadel AGPL-3.0-only (see Building on Stalwart and Zitadel)],
     [First-party apps and client libraries], [MIT],
     [Protocol specification], [CC BY 4.0],
-    [Documentation and this whitepaper], [CC BY-SA 4.0],
-    [Name and logo], [not covered by the licences; held by falkOSS, which registers \"kernoid\" as a word mark once it is incorporated],
+    [Documentation and this whitepaper], [CC BY 4.0 -- like the specification, so that text moves freely between them],
+    [Logo and icons (the artwork)], [CC BY-ND 4.0 -- to be passed on unchanged],
+    [Name and brand], [not covered by the licences; held by falkOSS, which registers \"kernoid\" as a word mark once it is incorporated],
   )]
   , kind: table
   )
