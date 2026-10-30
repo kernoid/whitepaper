@@ -8,7 +8,7 @@
   date: "October 2026",
   status: "Draft",
   stand: "2026-10-30",
-  rev: "853e648",
+  rev: "9af05c6",
 )
 
 = Executive Summary
@@ -188,10 +188,20 @@ and carries #strong[Zitadel];\'s concepts and logic for identity over to Rust --
 
 == The name
 <the-name>
+```
+Kern    German      → core
+kerno   Esperanto   → core
+kerno + id          → kernoid
+kern0id, 0 as o     → kerno.id
+kern0id, without 0  → kern.id
+kernoid, OIDC       → OpenID Connect
+```
+
 #emph[Kern] is German for core, and #emph[kerno] is Esperanto for core. Both are in the wordmark `kern0id`: read the 0 as
-an o and it says #strong[kerno.id];, leave it out and it says #strong[kern.id] -- the core, with identity. kernoid joins the two:
-#emph[kerno] and #emph[id];. The #emph[oid] also winks at OpenID Connect (OIDC), the protocol kernoid logs people in with, and, as
-an aside, at mathematics: the kernel of a map, and #emph[-oid] as in monoid -- kernel and monoid make kernoid.
+an o and it says #strong[kerno.id];, leave it out and it says #strong[kern.id] -- the core, with identity; the dot in the 0 is
+the dot of the domain. kernoid joins the two: #emph[kerno] and #emph[id];. The #emph[oid] also winks at OpenID Connect (OIDC), the
+protocol kernoid logs people in with, and, as an aside, at mathematics: the kernel of a map, and #emph[-oid] as in monoid --
+kernel and monoid make kernoid.
 
 == What kernoid is not
 <what-kernoid-is-not>
