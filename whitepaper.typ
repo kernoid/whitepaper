@@ -7,8 +7,8 @@
   version: "v0.2 (draft)",
   date: "October 2026",
   status: "Draft",
-  stand: "2026-10-29",
-  rev: "8bc6d64",
+  stand: "2026-10-30",
+  rev: "b27b594",
 )
 
 = Executive Summary
@@ -24,8 +24,8 @@ for identity, one for files -- each with its own users, its own administration a
 #strong[kernoid is one system for that core.] kernoid is a self-hostable cloud application, written in Rust, that combines
 an email and collaboration server with an identity provider and storage -- as one program with one data model:
 
-- #strong[one identity] -- an account is created once and is at the same time the mailbox, the login for single sign-on
-  and the owner of files; nothing has to be synchronised;
+- #strong[one identity] -- an account is created once and can be at the same time the mailbox, the login for single
+  sign-on and the owner of files; nothing has to be synchronised;
 - #strong[one administration] -- users, groups, domains and policies are managed in one place;
 - #strong[one operation] -- one application to deploy, update and monitor, built for containers and Kubernetes, with
   PostgreSQL for data and S3-compatible object storage for messages and files.
@@ -128,8 +128,8 @@ kernoid is #strong[one application] for an organisation\'s core services:
   , kind: table
   )
 
-Mailbox, login and file owner are #strong[the same object];. That is the difference to running a mail server and an
-identity provider side by side and connecting them.
+Mailbox, login and file owner are #strong[one object] -- an account that is whichever of them it needs to be. That is the
+difference to running a mail server and an identity provider side by side and connecting them.
 
 == Everything included
 <everything-included>
@@ -142,16 +142,18 @@ features back (see Governance and Funding).
 
 == Apps and protocol
 <apps-and-protocol>
-kernoid comes with #strong[first-party apps] -- the web app and the terminal app first; desktop and mobile apps follow
-after the first stable release. The web app is a progressive web app written in TypeScript; with it comes a
-#strong[TypeScript SDK];, so that anyone can build kernoid\'s login, or more, into their own web application #strong[\[OPEN: evaluation of a cross-platform framework for the desktop and
-mobile apps, e.g. Flutter\]];. They speak an #strong[open, documented protocol];; anyone can write their own
-apps and clients against it, and existing clients keep working through the standard protocols (IMAP, JMAP, CalDAV,
-CardDAV, WebDAV).
+kernoid comes with #strong[first-party apps];: the web app and the terminal app, and -- with the first stable release --
+one app for desktop and mobile, built with Flutter for macOS, iOS, Linux, Android and Windows. The web app is a
+progressive web app written in TypeScript; with it comes a #strong[TypeScript SDK];, so that anyone can build kernoid\'s
+login, or more, into their own web application. The terminal app and the desktop and mobile app build on a #strong[Rust
+SDK];: the protocol, file sync and end-to-end encryption, published as libraries anyone can use. End-to-end
+encryption is a focus of the apps: what one sets up by hand in other mail programs, they do by themselves.
 
-For file sync, kernoid either adopts an existing open protocol that meets its needs or defines its own #strong[\[OPEN:
-evaluation -- JMAP for files (IETF draft, already implemented by Stalwart) would give kernoid one protocol family for
-mail, calendars, contacts and files; other candidates to be assessed\]];.
+The apps speak an #strong[open, documented protocol];; anyone can write their own apps and clients against it, and existing
+clients keep working through the standard protocols (IMAP, JMAP, CalDAV, CardDAV, WebDAV).
+
+For file sync, kernoid adopts an existing open protocol: #strong[JMAP for files] (`FileNode`, an IETF draft), so that one
+protocol family serves mail, calendars, contacts and files; WebDAV serves the programs that speak it.
 
 The licences are split on purpose:
 
@@ -162,14 +164,16 @@ The licences are split on purpose:
     table.header([Part], [Licence], [Why],),
     table.hline(),
     [Server (kernoid)], [GNU AGPL-3.0-or-later; code taken over from Stalwart and Zitadel stays AGPL-3.0-only], [whoever offers kernoid as a service must share their changes],
-    [First-party apps and client libraries], [MIT], [apps can be distributed through app stores; anyone can build on them],
+    [Terminal app], [GNU AGPL-3.0-or-later], [it lives with the server and builds on the MIT libraries],
+    [Web, desktop and mobile apps, client libraries (SDKs)], [MIT], [apps can be distributed through app stores; anyone can build on them],
     [Protocol specification], [CC BY 4.0, freely implementable], [no client depends on kernoid\'s own apps],
   )]
   , kind: table
   )
 
 The apps are decoupled from the server: they share no AGPL code with it, only the protocol. Code taken over from
-Stalwart or Zitadel therefore stays in the server.
+Stalwart or Zitadel therefore stays in the server. The terminal app is under the server\'s licence, but it too uses
+only the MIT libraries, not the server\'s code.
 
 == No lock-in, not even to kernoid
 <no-lock-in-not-even-to-kernoid>
@@ -209,13 +213,15 @@ kernoid is built around a few objects that every part of the system shares:
   separate deployments.
 - A #strong[tenant] is an organisation: its domains, its policies, its administrators. An account\'s address names its
   tenant: `alice@example.org` belongs to the tenant that owns `example.org`.
-- An #strong[account] belongs to a tenant and is at the same time a login, a mailbox, the owner of calendars and contacts
-  and the owner of files.
-- A #strong[group] collects accounts and is at the same time a mailing list and the owner of shared folders and
-  calendars -- one object instead of three.
-- A #strong[shared mailbox] has an address but no person behind it (info\@, support\@); roles decide who works with it.
-- A #strong[resource] -- a room, a device -- has an address and a calendar and can be booked.
-- A #strong[service account] belongs to a machine or an application and uses keys instead of a login.
+- An #strong[account] belongs to a tenant and can be at the same time a login, a mailbox, the owner of calendars and
+  contacts and the owner of files -- whichever it needs; the tenant decides who gets which.
+- A #strong[group] collects accounts and is at the same time a mailing list and the one to give rights to on mailboxes,
+  calendars and folders -- one object instead of three.
+- A #strong[shared mailbox] has an address but no person behind it (info\@, support\@); rights decide who works with it.
+- A #strong[drive] holds folders that belong to the tenant, not to a person; accounts and groups get rights to them.
+- A #strong[resource] -- a room, a device -- has an address and a calendar and can be booked #strong[\[OPEN: not built yet\]];.
+- A #strong[service account] belongs to a machine or an application and uses keys instead of a login #strong[\[OPEN: not built
+  yet\]];.
 - #strong[Roles] say what an account or a group may do -- one rights model for mailboxes, calendars, folders and
   administration.
 - #strong[Applications] are the other services of a tenant that log in through kernoid over OpenID Connect or SAML.
@@ -234,7 +240,7 @@ longer log in, receive mail or open files -- in one step.
     [Identity and auth], [accounts, groups, roles, login, MFA and passkeys, single sign-on for other applications], [OpenID Connect, OAuth 2.0, SAML 2.0, SCIM 2.0, LDAP],
     [Mail], [receiving, filtering, storing and sending mail], [SMTP, IMAP, JMAP],
     [Collaboration], [calendars, contacts, sharing], [CalDAV, CardDAV, JMAP],
-    [Storage and sync], [files, folders, versions, sharing, sync with the apps], [WebDAV; sync protocol #strong[\[OPEN: see Apps and protocol\]];],
+    [Storage and sync], [files, folders, versions, sharing, sync with the apps], [JMAP for files, WebDAV],
     [Administration], [one interface and one API for all of the above], [REST (described with OpenAPI) and GraphQL, over HTTPS with JSON],
   )]
   , kind: table
@@ -282,13 +288,16 @@ and background jobs run as separate, independently scaled groups of processes. T
 own -- everything lives in PostgreSQL and object storage -- so they can be added, removed and updated one after
 another.
 
-kernoid comes with #strong[Docker Compose] files for small installations and a #strong[Kubernetes operator] for large ones,
-which also takes care of upgrades and backups #strong[\[OPEN: upgrade policy and supported versions\]];.
+kernoid comes with #strong[Docker Compose] files for small installations and a #strong[Kubernetes operator] with a Helm chart
+for large ones, which also runs the database migrations on upgrades #strong[\[OPEN: backups through the operator; upgrade
+policy and supported versions\]];.
 
 == Security
 <security>
 - #strong[Memory safety:] written in Rust, see Why Rust.
-- #strong[In transit:] TLS for every protocol, MTA-STS and DANE for mail between servers. kernoid terminates TLS itself
+- #strong[In transit:] TLS for every protocol, MTA-STS and DANE for mail between servers. Every TLS connection prefers a
+  key exchange that quantum computers cannot break later (ML-KEM together with X25519), and falls back to X25519 for
+  the other side\'s sake. kernoid terminates TLS itself
   or runs behind a reverse proxy such as Caddy, nginx or Traefik; it believes forwarded headers only from proxies
   it is configured to trust.
 - #strong[At rest:] kernoid encrypts message and file content itself, with a key per tenant, before it goes to object
@@ -298,7 +307,9 @@ which also takes care of upgrades and backups #strong[\[OPEN: upgrade policy and
   stays readable, and a new main key wraps all tenant keys again.
 - #strong[Login:] MFA and passkeys for every account; policies per tenant.
 - #strong[Traceability:] every change to identity and administration is an event (see Data).
-- #strong[End-to-end encryption] for selected folders is a goal for after 1.0; it has no date yet.
+- #strong[End-to-end encryption:] mail, folders, calendars and contacts that only their owners can read -- not the
+  operator, not kernoid -- with OpenPGP. It is a setting, because other software cannot read what is encrypted; in
+  kernoid\'s own apps it simply works. It comes with the apps and 1.0 #strong[\[OPEN: what exactly 1.0 includes\]];.
 - #strong[Review:] an external security audit takes place before 1.0, and its results are published #strong[\[OPEN: funding of
   the audit\]];.
 
@@ -313,7 +324,10 @@ how it deals with both projects.
 Stalwart is a mail and collaboration server written in Rust#footnote[Stalwart, README of `stalwartlabs/stalwart` (AGPL-3.0 and SELv2), checked 2026-10-22: #link("https://github.com/stalwartlabs/stalwart");];. kernoid takes over Stalwart code where it
 fits -- above all the protocols (SMTP, IMAP, JMAP, CalDAV, CardDAV, WebDAV) and mail filtering. kernoid copies the
 selected parts #strong[once] into its own repository, removes everything under the enterprise licence and adapts the code
-to its own data model; it does not merge Stalwart\'s later changes #strong[\[OPEN: the exact selection of crates\]];.
+to its own data model; it does not merge Stalwart\'s later changes. So far kernoid has taken over the protocol
+parsers for IMAP and for WebDAV, CalDAV and CardDAV, DANE, and parts of the calendar logic (filters, free-busy);
+Stalwart\'s libraries for parsing, authenticating, building and sending mail and for calendars and contacts are
+dependencies under Apache-2.0 or MIT.
 
 Stalwart is published under two licences, and every source file says which applies#footnote[Own count of the `SPDX-License-Identifier` lines in the `.rs` files of `stalwartlabs/stalwart`, branch `main`, commit `aa47d8e`, 2026-10-22; licence texts in `LICENSES/`: #link("https://github.com/stalwartlabs/stalwart/tree/main/LICENSES");];:
 
@@ -338,14 +352,14 @@ repository -- every change is checked for it automatically before it is merged.
 <zitadel-concepts-and-logic>
 Zitadel is an identity provider written in Go, under AGPL-3.0-only; some parts are under Apache-2.0 (API definitions,
 documentation) or MIT (the login application, client packages)#footnote[Zitadel, `LICENSING.md`, checked 2026-10-22: #link("https://github.com/zitadel/zitadel/blob/main/LICENSING.md");];. kernoid carries over Zitadel\'s
-event model, its multi-tenancy and the logic of its protocols -- OpenID Connect, OAuth 2.0, SAML 2.0 #strong[\[OPEN: further
-scope\]] -- and rewrites them in Rust.
+event model, its multi-tenancy, its projects and project grants, its login names and the linking of external logins,
+and the logic of its protocols -- OpenID Connect, OAuth 2.0, SAML 2.0, SCIM 2.0 -- and rewrites them in Rust.
 
 A translation from Go to Rust is still a derivative work. kernoid therefore draws a clear line: #strong[code written while
 reading Zitadel\'s source is marked as derived from Zitadel] and keeps its licence and copyright notice. What kernoid
 builds only from specifications and documentation is its own code.
 
-#strong[\[OPEN: whether Zitadel\'s MIT-licensed login application can serve as a starting point for kernoid\'s login\]]
+kernoid\'s login page is its own, written for kernoid; it takes nothing from Zitadel\'s login application.
 
 == Licences in one repository
 <licences-in-one-repository>
@@ -357,7 +371,7 @@ builds only from specifications and documentation is its own code.
 - #strong[The apps are not affected:] they share no code with the server (see Apps and protocol).
 
 Every file names its licence and its authors in SPDX headers; a credits file lists both projects and what kernoid
-took from them. kernoid follows the REUSE specification, so every file\'s licence and copyright can be checked by
+took from them #strong[\[OPEN: not in the repository yet\]];. kernoid follows the REUSE specification, so every file\'s licence and copyright can be checked by
 machine#footnote[REUSE Specification, Free Software Foundation Europe, checked 2026-10-22: #link("https://reuse.software/spec/");];.
 
 == Working with the upstreams
@@ -405,7 +419,7 @@ Any service that supports one of these standards can use kernoid without changes
   kernoid\'s rights. The WOPI module comes before 1.0 (see Roadmap).
 - #strong[Video:] Jitsi Meet authenticates users internally, over LDAP or with signed tokens (JWT); its documentation
   names no OpenID Connect#footnote[Jitsi Meet Handbook, \"Self-Hosting Guide -- Docker\", section Authentication, checked 2026-10-22: #link("https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/");];. kernoid\'s Jitsi module issues these tokens for logged-in
-  accounts -- no extra service is needed.
+  accounts -- no extra service is needed -- and adds a meeting to an event with one click.
 - #strong[Chat:] for Matrix, the Matrix Authentication Service accepts an upstream OpenID Connect provider, but no
   SAML#footnote[Matrix Authentication Service documentation, \"Single sign-on\", checked 2026-10-22: #link("https://element-hq.github.io/matrix-authentication-service/setup/sso.html");];. kernoid is that provider.
 
@@ -469,7 +483,8 @@ notarisation, a draft\]];:
     table.header([Part], [Licence],),
     table.hline(),
     [Server], [GNU AGPL-3.0-or-later; code taken over from Stalwart and Zitadel AGPL-3.0-only (see Building on Stalwart and Zitadel)],
-    [First-party apps and client libraries], [MIT],
+    [Terminal app], [GNU AGPL-3.0-or-later],
+    [Web, desktop and mobile apps, client libraries], [MIT],
     [Protocol specification], [CC BY 4.0],
     [Documentation and this whitepaper], [CC BY 4.0 -- like the specification, so that text moves freely between them],
     [Logo and icons (the artwork)], [CC BY-ND 4.0 -- to be passed on unchanged],
@@ -505,7 +520,7 @@ stable.
 
 = Roadmap
 <roadmap>
-The order is fixed; the dates are aims, not promises -- with fewer people or less money, they move.
+The order is fixed; the timing is an aim, not a promise -- with fewer people or less money, it moves.
 
 #figure(
   align(center)[#table(
@@ -515,14 +530,16 @@ The order is fixed; the dates are aims, not promises -- with fewer people or les
     table.hline(),
     [Pre-release], [0.1 (released 2026-10-28)], [identity and single sign-on, mail, calendars and contacts, files, the web app and a terminal app],
     [], [0.2], [the core completed: public links, resumable uploads, LDAP, the Kubernetes operator; virus scanning and Jitsi as the first modules],
-    [], [further 0.x], [WOPI, external key management, DNS automation, moving over; actions and hooks; external security audit],
-    [Stable], [1.0, summer 2027], [ready for production; falkOSS runs its own email, logins and files on it],
+    [], [further 0.x], [WOPI, external key management, DNS automation, moving over; actions and hooks; the app for desktop and mobile; external security audit],
+    [Stable], [1.0, once falkOSS is incorporated and holds the app stores\' developer accounts], [ready for production, with the app for desktop and mobile; falkOSS runs its own email, logins and files on it],
   )]
   , kind: table
   )
 
 Throughout the pre-release phase, kernoid\'s own apps are the #strong[web app] and the #strong[terminal app];; they are made as
-good as the core. Everything else connects over the open protocols.
+good as the core. The #strong[app for desktop and mobile] is built alongside and released with 1.0 -- publishing it in the
+app stores needs falkOSS as a legal entity with developer accounts. Everything else connects over the open
+protocols.
 
 == 0.1 -- the first pre-release
 <01--the-first-pre-release>
@@ -558,6 +575,7 @@ The further modules come in this order (see Modules):
 
 Alongside:
 
+- the app for desktop and mobile, with end-to-end encryption (see Apps and protocol)
 - actions and hooks for integrations (see Integrations)
 - stable data formats and a documented upgrade path between versions
 - documentation for operators, including moving over from other systems
@@ -565,12 +583,13 @@ Alongside:
 
 == 1.0 -- stable
 <10--stable>
-Ready for production, planned for summer 2027. falkOSS moves its own email, logins and files to kernoid.
+Ready for production, as soon as falkOSS is incorporated and holds the developer accounts the app stores require.
+The app for desktop and mobile comes with it #strong[\[OPEN: push notifications to the mobile app -- with 1.0 or after\]];.
+falkOSS moves its own email, logins and files to kernoid.
 
 == After 1.0
 <after-10>
-Without dates and in no fixed order: the desktop app, the mobile apps with push notifications, end-to-end encryption
-for selected folders, further integrations, an optional external search index.
+Without dates and in no fixed order: further integrations, an optional external search index.
 
 = Get Involved
 <get-involved>
@@ -584,7 +603,7 @@ kernoid needs people who know or want to learn:
 - #strong[identity protocols] -- OpenID Connect, OAuth 2.0, SAML, SCIM, WebAuthn
 - #strong[mail and groupware protocols] -- SMTP, IMAP, JMAP, CalDAV, CardDAV
 - #strong[distributed systems] -- PostgreSQL, object storage, event sourcing
-- #strong[apps] -- desktop, mobile and web clients
+- #strong[apps] -- Flutter for desktop and mobile, TypeScript for the web
 - #strong[operation] -- containers, Kubernetes, security
 
 Every contribution is welcome -- code, review, documentation, translations, testing. Contributions are accepted under
@@ -603,9 +622,10 @@ pilots and ask for open standards in procurement.
 
 == Contact
 <contact>
-- #strong[GitHub:] #link("https://github.com/kernoid") #strong[\[OPEN: organisation not yet created\]]
-- #strong[Website, email, chat:] #strong[\[OPEN: domains not yet registered\]]
+- #strong[GitHub:] #link("https://github.com/kernoid")
+- #strong[Website:] #link("https://kernoid.org");; documentation: #link("https://kernoid.dev")
+- #strong[Email, chat:] #strong[\[OPEN\]]
 - #strong[Publisher:] falkOSS -- #link("https://falkoss.org")
 
-Questions and corrections to this whitepaper are welcome as issues or pull requests in its repository
-#strong[\[OPEN: link once public\]];.
+Questions and corrections to this whitepaper are welcome as issues or pull requests in its repository:
+#link("https://github.com/kernoid/whitepaper");.
