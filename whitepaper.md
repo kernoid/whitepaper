@@ -558,6 +558,9 @@ Pre-releases are for testing, not for production data.
   first modules
 - what testing 0.1 turns up
 
+Push notifications without any provider's account – Web Push for the web app, UnifiedPush for Android – follow in 0.x
+(RFC 0007).
+
 ## Until stable
 
 The further modules come in this order (see Modules):
@@ -579,7 +582,8 @@ Alongside:
 ## 1.0 – stable
 
 Ready for production, as soon as falkOSS is incorporated and holds the developer accounts the app stores require.
-The app for desktop and mobile comes with it **[OPEN: push notifications to the mobile app – with 1.0 or after]**.
+The app for desktop and mobile comes with it, and with it push notifications through Apple and Google – set up by
+each operator with their own keys or a relay of their choice; nothing is sent there by default.
 falkOSS moves its own email, logins and files to kernoid.
 
 ## After 1.0
