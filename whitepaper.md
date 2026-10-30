@@ -199,7 +199,8 @@ build directly on Stalwart's existing Rust code.
 > [!NOTE]
 > Rewritten from scratch. Decided 2026-10-22: one image with roles; identity and administration event-sourced like
 > Zitadel; no dependencies beyond PostgreSQL and S3; end-to-end encryption for files as a later goal, not in 1.0.
-> Changed 2026-10-30: end-to-end encryption (RFC 0006) comes with the apps.
+> Changed 2026-10-30: end-to-end encryption (RFC 0006) comes in 0.2 – in the web app and the terminal app, and in
+> the app for desktop and mobile from its first version.
 > Dropped from v0.1: SQLite and single-binary deployment, Maildir, the fixed choice of Dioxus, "proprietary sync",
 > managed hosting run by a foundation.
 
@@ -305,7 +306,9 @@ policy and supported versions]**.
 - **Traceability:** every change to identity and administration is an event (see Data).
 - **End-to-end encryption:** mail, folders, calendars and contacts that only their owners can read – not the
   operator, not kernoid – with OpenPGP. It is a setting, because other software cannot read what is encrypted; in
-  kernoid's own apps it simply works. It comes with the apps and 1.0 **[OPEN: what exactly 1.0 includes]**.
+  kernoid's own apps it simply works – in the web app and the terminal app since 0.2, in the app for desktop and
+  mobile from its first version. Only code the user does not load from the server protects against the operator, so
+  the native apps matter for it.
 - **Review:** an external security audit takes place before 1.0, and its results are published **[OPEN: funding of
   the audit]**.
 
@@ -522,7 +525,7 @@ The order is fixed; the timing is an aim, not a promise – with fewer people or
 | Phase | Version | Content |
 |---|---|---|
 | Pre-release | 0.1 (released 2026-10-28) | identity and single sign-on, mail, calendars and contacts, files, the web app and a terminal app |
-| | 0.2 | the core completed: public links, resumable uploads, LDAP, the Kubernetes operator; virus scanning and Jitsi as the first modules |
+| | 0.2 | the core completed: public links, resumable uploads, LDAP, the Kubernetes operator; end-to-end encryption; virus scanning and Jitsi as the first modules |
 | | further 0.x | WOPI, external key management, DNS automation, moving over; actions and hooks; the app for desktop and mobile; external security audit |
 | Stable | 1.0, once falkOSS is incorporated and holds the app stores' developer accounts | ready for production, with the app for desktop and mobile; falkOSS runs its own email, logins and files on it |
 
@@ -549,6 +552,8 @@ Pre-releases are for testing, not for production data.
 - LDAP for programs that need it; the open points of mail (SRS, sending as a group, OAUTHBEARER, IMAP `SORT` and
   `THREAD`)
 - running in separate roles across several instances, with the Kubernetes operator
+- **end-to-end encryption** with OpenPGP – mail, vaults (encrypted folders), calendars and address books – in the
+  web app and the terminal app (RFC 0006)
 - **virus scanning** of incoming mail and uploaded files, and **Jitsi** – video meetings with kernoid's login – as the
   first modules
 - what testing 0.1 turns up
@@ -565,7 +570,7 @@ The further modules come in this order (see Modules):
 
 Alongside:
 
-- the app for desktop and mobile, with end-to-end encryption (see Apps and protocol)
+- the app for desktop and mobile, with end-to-end encryption from its first version (see Apps and protocol)
 - actions and hooks for integrations (see Integrations)
 - stable data formats and a documented upgrade path between versions
 - documentation for operators, including moving over from other systems

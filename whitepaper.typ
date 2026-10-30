@@ -8,7 +8,7 @@
   date: "October 2026",
   status: "Draft",
   stand: "2026-10-30",
-  rev: "b27b594",
+  rev: "db97169",
 )
 
 = Executive Summary
@@ -309,7 +309,9 @@ policy and supported versions\]];.
 - #strong[Traceability:] every change to identity and administration is an event (see Data).
 - #strong[End-to-end encryption:] mail, folders, calendars and contacts that only their owners can read -- not the
   operator, not kernoid -- with OpenPGP. It is a setting, because other software cannot read what is encrypted; in
-  kernoid\'s own apps it simply works. It comes with the apps and 1.0 #strong[\[OPEN: what exactly 1.0 includes\]];.
+  kernoid\'s own apps it simply works -- in the web app and the terminal app since 0.2, in the app for desktop and
+  mobile from its first version. Only code the user does not load from the server protects against the operator, so
+  the native apps matter for it.
 - #strong[Review:] an external security audit takes place before 1.0, and its results are published #strong[\[OPEN: funding of
   the audit\]];.
 
@@ -529,7 +531,7 @@ The order is fixed; the timing is an aim, not a promise -- with fewer people or 
     table.header([Phase], [Version], [Content],),
     table.hline(),
     [Pre-release], [0.1 (released 2026-10-28)], [identity and single sign-on, mail, calendars and contacts, files, the web app and a terminal app],
-    [], [0.2], [the core completed: public links, resumable uploads, LDAP, the Kubernetes operator; virus scanning and Jitsi as the first modules],
+    [], [0.2], [the core completed: public links, resumable uploads, LDAP, the Kubernetes operator; end-to-end encryption; virus scanning and Jitsi as the first modules],
     [], [further 0.x], [WOPI, external key management, DNS automation, moving over; actions and hooks; the app for desktop and mobile; external security audit],
     [Stable], [1.0, once falkOSS is incorporated and holds the app stores\' developer accounts], [ready for production, with the app for desktop and mobile; falkOSS runs its own email, logins and files on it],
   )]
@@ -559,6 +561,8 @@ Pre-releases are for testing, not for production data.
 - LDAP for programs that need it; the open points of mail (SRS, sending as a group, OAUTHBEARER, IMAP `SORT` and
   `THREAD`)
 - running in separate roles across several instances, with the Kubernetes operator
+- #strong[end-to-end encryption] with OpenPGP -- mail, vaults (encrypted folders), calendars and address books -- in the
+  web app and the terminal app (RFC 0006)
 - #strong[virus scanning] of incoming mail and uploaded files, and #strong[Jitsi] -- video meetings with kernoid\'s login -- as the
   first modules
 - what testing 0.1 turns up
@@ -575,7 +579,7 @@ The further modules come in this order (see Modules):
 
 Alongside:
 
-- the app for desktop and mobile, with end-to-end encryption (see Apps and protocol)
+- the app for desktop and mobile, with end-to-end encryption from its first version (see Apps and protocol)
 - actions and hooks for integrations (see Integrations)
 - stable data formats and a documented upgrade path between versions
 - documentation for operators, including moving over from other systems
