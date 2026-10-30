@@ -8,7 +8,7 @@
   date: "October 2026",
   status: "Draft",
   stand: "2026-10-30",
-  rev: "70e3d18",
+  rev: "a863f08",
 )
 
 = Executive Summary
@@ -185,6 +185,13 @@ into kernoid take it out again. An organisation that leaves kernoid takes its da
 <where-it-comes-from>
 kernoid stands on the work of others and says so: it takes over #strong[Stalwart];\'s AGPL code for mail and collaboration
 and carries #strong[Zitadel];\'s concepts and logic for identity over to Rust -- see Building on Stalwart and Zitadel.
+
+== The name
+<the-name>
+#emph[Kern] is German for core, and #emph[kerno] is Esperanto for core. Both are in the wordmark `kern0id`: read the 0 as
+an o and it says #strong[kerno.id];, leave it out and it says #strong[kern.id] -- the core, with identity. kernoid joins the two:
+#emph[kerno] and #emph[id];. As an aside, it also nods to mathematics: the kernel of a map, and #emph[-oid] as in monoid -- kernel and
+monoid make kernoid.
 
 == What kernoid is not
 <what-kernoid-is-not>
