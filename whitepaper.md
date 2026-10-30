@@ -367,8 +367,9 @@ kernoid's login page is its own, written for kernoid; it takes nothing from Zita
   only be possible once the taken-over code is replaced.
 - **The apps are not affected:** they share no code with the server (see Apps and protocol).
 
-Every file names its licence and its authors in SPDX headers; a credits file lists both projects and what kernoid
-took from them **[OPEN: not in the repository yet]**. kernoid follows the REUSE specification, so every file's licence and copyright can be checked by
+Every file names its licence and its authors in SPDX headers; a credits file
+([CREDITS.md](https://github.com/kernoid/kernoid/blob/main/CREDITS.md)) lists both projects and what kernoid took
+from them. kernoid follows the REUSE specification, so every file's licence and copyright can be checked by
 machine[^reuse].
 
 ## Working with the upstreams

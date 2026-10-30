@@ -8,7 +8,7 @@
   date: "October 2026",
   status: "Draft",
   stand: "2026-10-30",
-  rev: "214af2d",
+  rev: "70e3d18",
 )
 
 = Executive Summary
@@ -372,8 +372,9 @@ kernoid\'s login page is its own, written for kernoid; it takes nothing from Zit
   only be possible once the taken-over code is replaced.
 - #strong[The apps are not affected:] they share no code with the server (see Apps and protocol).
 
-Every file names its licence and its authors in SPDX headers; a credits file lists both projects and what kernoid
-took from them #strong[\[OPEN: not in the repository yet\]];. kernoid follows the REUSE specification, so every file\'s licence and copyright can be checked by
+Every file names its licence and its authors in SPDX headers; a credits file
+(#link("https://github.com/kernoid/kernoid/blob/main/CREDITS.md")[CREDITS.md];) lists both projects and what kernoid took
+from them. kernoid follows the REUSE specification, so every file\'s licence and copyright can be checked by
 machine#footnote[REUSE Specification, Free Software Foundation Europe, checked 2026-10-22: #link("https://reuse.software/spec/");];.
 
 == Working with the upstreams
